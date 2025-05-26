@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom"; // Para manejar navegación
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const categories = [
   { id: "electronics", name: "Electrónica" },
@@ -13,19 +13,32 @@ const categories = [
 ];
 
 const CategoryGrid = () => {
+  const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const handleCategoryClick = (categoryId) => {
+    setSelectedCategory(categoryId);
+    navigate(`/search?category=${categoryId}`);
+  };
+
   return (
-    <div className="container mt-4">
-      <h2 className="text-center mb-4">Categorías</h2>
-      <div className="row row-cols-1 row-cols-md-4 g-4">
-        {categories.map((category) => (
-          <div className="col" key={category.id}>
-            <Link to={`/category/${category.id}`} className="text-decoration-none">
-              <div className="card p-3 shadow-sm text-center">
-                <h5 className="fw-bold">{category.name}</h5>
+    <div className="d-flex justify-content-center">
+
+      <div className="container-fluid m-4">
+        <h2 className="text-center mb-4">Categorías</h2>
+        <div className="row row-cols-1 row-cols-md-4 g-4" style={{ cursor: "pointer" }}>
+          {categories.map((category) => (
+            <div className="col" key={category.id}>
+              <div
+                className={`card p-3 shadow-sm text-center cursor-pointer category-card ${selectedCategory === category.id ? "clicked" : ""
+                  }`}
+                onClick={() => handleCategoryClick(category.id)}
+              >
+                <h5 className="fw-bold category-text">{category.name}</h5>
               </div>
-            </Link>
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

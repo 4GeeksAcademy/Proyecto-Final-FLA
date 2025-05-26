@@ -26,7 +26,7 @@ export const Footer = () => {
 					<a href="https://twitter.com/" className="text-black me-2" target="_blank" rel="noopener noreferrer">
 						<i className="fab fa-twitter"></i>
 					</a>
-					<a href="https://www.instagram.com/" className="text-black" target="_blank" rel="noopener noreferrer">
+					<a href="https://www.instagram.com/" className="text-black me-2" target="_blank" rel="noopener noreferrer">
 						<i className="fab fa-instagram"></i>
 					</a>
 				</div>

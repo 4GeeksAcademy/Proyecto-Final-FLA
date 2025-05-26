@@ -13,3 +13,12 @@
   border-color: #555;
 }
 
+.category-card {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.category-card:hover .category-text {
+  transform: scale(2);
+  transition: transform 0.3s ease;
+}
+
