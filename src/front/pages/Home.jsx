@@ -6,25 +6,35 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 export const Home = () => {
     const { store, dispatch } = useGlobalReducer();
 
-    const loadMessage = async () => {
-        try {
-            const backendUrl = import.meta.env.VITE_BACKEND_URL;
+const loadMessage = async () => {
+    try {
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-            if (!backendUrl) throw new Error("VITE_BACKEND_URL is not defined in .env file");
+        if (!backendUrl) throw new Error("VITE_BACKEND_URL is not defined in .env file");
 
-            const response = await fetch(backendUrl + "/api/hello");
-            const data = await response.json();
+        const response = await fetch(backendUrl + "/api/hello");
+        const contentType = response.headers.get("content-type");
 
-            if (response.ok) dispatch({ type: "set_hello", payload: data.message });
-
-            return data;
-        } catch (error) {
-            if (error.message) throw new Error(
-                `Could not fetch the message from the backend.
-                Please check if the backend is running and the backend port is public.`
-            );
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-    };
+
+        if (!contentType || !contentType.includes("application/json")) {
+            throw new Error("Response is not JSON. Check if the backend is running and the endpoint is correct.");
+        }
+
+        const data = await response.json();
+        dispatch({ type: "set_hello", payload: data.message });
+
+        return data;
+    } catch (error) {
+        console.error(error);
+        throw new Error(
+            `Could not fetch the message from the backend.
+            Please check if the backend is running and the backend port is public.`
+        );
+    }
+};
 
     useEffect(() => {
         loadMessage();
@@ -45,7 +55,6 @@ export const Home = () => {
                     </span>
                 )}
             </div>
-            {/* Botón para ir a la página de registro */}
             <Link to="/register">
                 <button className="btn btn-primary mt-3">Ir al Registro</button>
             </Link>

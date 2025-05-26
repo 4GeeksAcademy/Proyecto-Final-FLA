@@ -1,0 +1,12 @@
+.nav-tabs .nav-link.active {
+    color: #1fff3d ;
+    background: transparent ; 
+    border: none ; 
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+}
+.nav-link {
+    color: #5fff1f ;
+    margin: 0 !important;
+    border: none !important;
+}
