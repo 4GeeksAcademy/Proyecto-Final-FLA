@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean, func, DateTime, Integer
+from sqlalchemy import String, Boolean, func, DateTime, Integer, Float
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import datetime
 
@@ -26,4 +26,22 @@ class User(db.Model):
             'email': self.email,
             'is_active': self.is_active,
             'created_at': self.created_at
+        }
+
+class Product(db.Model):
+    __tablename__ = 'products'
+    
+    id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    price: Mapped[float] = mapped_column(Float, nullable=False)
+    category: Mapped[str] = mapped_column(String(50), nullable=False)
+    image_url: Mapped[str] = mapped_column(String(255), nullable=True)
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'price': self.price,
+            'category': self.category,
+            'image_url': self.image_url,
         }

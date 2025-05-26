@@ -58,6 +58,9 @@ const loadMessage = async () => {
             <Link to="/register">
                 <button className="btn btn-primary mt-3">Ir al Registro</button>
             </Link>
+            <Link to="/search">
+                <button className="btn btn-success mt-3 ms-3">Ir a Búsqueda</button>
+            </Link>
         </div>
     );
 };

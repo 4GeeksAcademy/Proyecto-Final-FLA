@@ -7,11 +7,11 @@ import {
 import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
-import { Demo } from "./pages/Demo";
 import RegisterPage from './pages/Register';
 import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import SearchPage from './pages/SearchPage';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,7 +22,7 @@ export const router = createBrowserRouter(
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password/:token" element={<ResetPassword />} />
       <Route path="/single/:theId" element={<Single />} />
-      <Route path="/demo" element={<Demo />} />
+      <Route path="/search" element={<SearchPage />} />
     </Route>
   )
 );
