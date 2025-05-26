@@ -10,43 +10,42 @@ const SearchPage = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;  
-  
-useEffect(() => {
-  // Evitar buscar si no hay búsqueda ni filtros aplicados
-  if (!search && !filters.category && !filters.minPrice && !filters.maxPrice) {
-    setProducts([]);
-    return;
-  }
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  const params = new URLSearchParams();
-  if (search) params.append('search', search);
-  if (filters.category) params.append('category', filters.category);
-  if (filters.minPrice) params.append('min_price', filters.minPrice);
-  if (filters.maxPrice) params.append('max_price', filters.maxPrice);
-
-  console.log("Fetch URL:", `${backendUrl}/api/products?${params.toString()}`);
-
-const fetchProducts = async () => {
-  try {
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
-    if (!backendUrl) throw new Error("VITE_BACKEND_URL no está definido");
-
-    const res = await fetch(`${backendUrl}/api/products?${params.toString()}`);
-    if (!res.ok) {
-      const text = await res.text();
-      throw new Error(`Error HTTP: ${res.status} - ${text}`);
+  useEffect(() => {
+    // Evitar buscar si no hay búsqueda ni filtros aplicados
+    if (!search && !filters.category && !filters.minPrice && !filters.maxPrice) {
+      setProducts([]);
+      return;
     }
 
-    const data = await res.json();
-    setProducts(data);
-  } catch (err) {
-    console.error('Error al buscar productos', err);
-  }
-};
+    const params = new URLSearchParams();
+    if (search) params.append('q', search); // Cambiado de 'search' a 'q'
+    if (filters.category) params.append('category', filters.category);
+    if (filters.minPrice) params.append('min_price', filters.minPrice);
+    if (filters.maxPrice) params.append('max_price', filters.maxPrice);
 
-  fetchProducts();
-}, [search, filters]);
+    console.log("Fetch URL:", `${backendUrl}/api/products/search?${params.toString()}`);
+
+    const fetchProducts = async () => {
+      try {
+        if (!backendUrl) throw new Error("VITE_BACKEND_URL no está definido");
+
+        const res = await fetch(`${backendUrl}/api/products/search?${params.toString()}`); // Cambiado endpoint
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(`Error HTTP: ${res.status} - ${text}`);
+        }
+
+        const data = await res.json();
+        setProducts(data);
+      } catch (err) {
+        console.error('Error al buscar productos', err);
+      }
+    };
+
+    fetchProducts();
+  }, [search, filters]);
 
   return (
     <div className="flex min-h-screen p-4 gap-6">

@@ -45,3 +45,4 @@ class Product(db.Model):
             'category': self.category,
             'image_url': self.image_url,
         }
+    
